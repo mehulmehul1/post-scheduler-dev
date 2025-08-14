@@ -1,33 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// For platforms like Vercel Cron, use GET handler to trigger job.
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
+  const auth = req.headers.get("Authorization");
+  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const now = new Date().toISOString();
     const due = db.getDue(now);
-
-    // TODO: Integrate with Farcaster/Neynar posting logic here.
-    // For now, mark as posted and log.
     const posted: string[] = [];
     for (const post of due) {
       try {
         // Placeholder for publish call
-        // await publishToFarcaster(post.text)
         db.update(post.id, { status: "posted" });
         posted.push(post.id);
       } catch (e: any) {
         db.update(post.id, { status: "failed", error: String(e?.message ?? e) });
       }
     }
-
     return NextResponse.json(
       { runAt: now, processed: due.length, posted },
       { status: 200 }
     );
   } catch (err: any) {
     return NextResponse.json(
-      { error: "Cron run failed", details: String(err?.message ?? err) },
+      { error: "Publish run failed", details: String(err?.message ?? err) },
       { status: 500 }
     );
   }

@@ -38,9 +38,22 @@ class InMemoryDB {
   get(id: string): ScheduledPost | undefined {
     return this.posts.get(id);
   }
+
+  listAll(): ScheduledPost[] {
+    return Array.from(this.posts.values()).sort(
+      (a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
+    );
+  }
 }
 
-export const db = new InMemoryDB();
+// Persist across hot-reloads and route handler imports in dev by storing on globalThis.
+declare global {
+  // eslint-disable-next-line no-var
+  var __KAMO_DB__: InMemoryDB | undefined;
+}
+
+export const db: InMemoryDB = globalThis.__KAMO_DB__ ?? new InMemoryDB();
+globalThis.__KAMO_DB__ = db;
 
 // Placeholder for future real DB integration (Prisma, Postgres, etc.)
 // Replace InMemoryDB with a persistent implementation when ready.

@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "meta": {
+    "project": "Post Scheduler MVP",
+    "description": "Actionable checklist for Phase-1 MVP. Phase-2 on-chain items are tagged as deferred.",
+    "created_at": "2025-08-13T17:30:26Z",
+    "current_tag": "master"
+  },
+  "tags": [
+    "master",
+    "phase-1",
+    "phase-2",
+    "deferred",
+    "on-chain"
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Scheduling API",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": [],
+      "tags": ["master", "phase-1"],
+      "details": "Design and implement REST API to create, read, update, delete, and execute scheduled posts.",
+      "subtasks": [
+        {"id": "1.1", "title": "Define data model (Schedule, JobRun, ChannelAccount)", "status": "todo"},
+        {"id": "1.2", "title": "Design API spec (OpenAPI) for CRUD + pause/resume + dry-run", "status": "todo"},
+        {"id": "1.3", "title": "Implement create/list/get/update/delete endpoints", "status": "todo"},
+        {"id": "1.4", "title": "Validation (cron/natural schedule, timezone, windowing)", "status": "todo"},
+        {"id": "1.5", "title": "Idempotency keys for create/update operations", "status": "todo"},
+        {"id": "1.6", "title": "Rate limiting and request auth middleware", "status": "todo"},
+        {"id": "1.7", "title": "Unit and integration tests", "status": "todo"}
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Editor UI",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": ["1", "5", "6"],
+      "tags": ["master", "phase-1"],
+      "details": "Minimal web UI to compose, schedule, and preview posts.",
+      "subtasks": [
+        {"id": "2.1", "title": "Wireframes: schedule form, list, run history", "status": "todo"},
+        {"id": "2.2", "title": "Scaffold app shell and routing (Dashboard, New/Edit Schedule)", "status": "todo"},
+        {"id": "2.3", "title": "Schedule form (content, channel, schedule time/cron)", "status": "todo"},
+        {"id": "2.4", "title": "Preview pane and character count/validation", "status": "todo"},
+        {"id": "2.5", "title": "API integration for CRUD and dry-run", "status": "todo"},
+        {"id": "2.6", "title": "Error states, loading, empty states", "status": "todo"}
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Farcaster cast workflow",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": ["6", "5"],
+      "tags": ["master", "phase-1"],
+      "details": "Implement casting pipeline (signer setup, submit cast, retries, telemetry).",
+      "subtasks": [
+        {"id": "3.1", "title": "Select Farcaster client/SDK and register app/signer", "status": "todo"},
+        {"id": "3.2", "title": "Store signer credentials securely (per-user or app-level)", "status": "todo"},
+        {"id": "3.3", "title": "Implement cast submit function (text + optional media URLs)", "status": "todo"},
+        {"id": "3.4", "title": "Add dry-run mode and sandbox/test flow", "status": "todo"},
+        {"id": "3.5", "title": "Retry policy with backoff and rate-limit handling", "status": "todo"},
+        {"id": "3.6", "title": "Metrics and structured logs for cast attempts", "status": "todo"}
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Scheduler/cron worker",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": ["1", "5"],
+      "tags": ["master", "phase-1"],
+      "details": "Background process to enqueue due posts and dispatch to channel workflows.",
+      "subtasks": [
+        {"id": "4.1", "title": "Choose triggering approach (hosted cron vs always-on worker)", "status": "todo"},
+        {"id": "4.2", "title": "Query due schedules (next_run_at) with timezone safety", "status": "todo"},
+        {"id": "4.3", "title": "Concurrency control and exactly-once semantics", "status": "todo"},
+        {"id": "4.4", "title": "Dispatch to Farcaster workflow (and future channels)", "status": "todo"},
+        {"id": "4.5", "title": "Record JobRun results and reschedule next_run_at", "status": "todo"},
+        {"id": "4.6", "title": "Observability: logs, metrics, alerts", "status": "todo"}
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Storage layer",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": [],
+      "tags": ["master", "phase-1"],
+      "details": "Database schema, migrations, and access layer.",
+      "subtasks": [
+        {"id": "5.1", "title": "Select DB for MVP (SQLite/Postgres) and migrate path for prod", "status": "todo"},
+        {"id": "5.2", "title": "Schema: users, accounts, schedules, jobs, job_runs, tokens", "status": "todo"},
+        {"id": "5.3", "title": "Write migrations and seed script", "status": "todo"},
+        {"id": "5.4", "title": "Indexes for lookup by user/channel/next_run_at", "status": "todo"},
+        {"id": "5.5", "title": "Data access layer (ORM/queries)", "status": "todo"}
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Auth",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": ["5"],
+      "tags": ["master", "phase-1"],
+      "details": "MVP authentication and session management.",
+      "subtasks": [
+        {"id": "6.1", "title": "Choose auth approach (e.g., email magic link, GitHub, or Farcaster signin)", "status": "todo"},
+        {"id": "6.2", "title": "Session management and protected routes", "status": "todo"},
+        {"id": "6.3", "title": "Store channel credentials/signer tokens per user", "status": "todo"},
+        {"id": "6.4", "title": "Basic RBAC: user vs admin (optional for MVP)", "status": "todo"}
+      ]
+      
+    },
+    {
+      "id": "7",
+      "title": "Minimal deploy",
+      "status": "todo",
+      "phase": "phase-1",
+      "assignees": [],
+      "depends_on": ["1", "2", "3", "4", "5", "6"],
+      "tags": ["master", "phase-1"],
+      "details": "Get MVP running in a single environment with env-managed secrets.",
+      "subtasks": [
+        {"id": "7.1", "title": "Runtime selection (single-process or API + worker)", "status": "todo"},
+        {"id": "7.2", "title": "Environment config (.env, secret storage)", "status": "todo"},
+        {"id": "7.3", "title": "Deployment target (e.g., Render/Fly/Vercel + cron)", "status": "todo"},
+        {"id": "7.4", "title": "Health checks and logs shipping", "status": "todo"},
+        {"id": "7.5", "title": "Smoke tests and rollback plan", "status": "todo"}
+      ]
+    },
+    {
+      "id": "8",
+      "title": "On-chain integrations (deferred)",
+      "status": "deferred",
+      "phase": "phase-2",
+      "assignees": [],
+      "depends_on": [],
+      "tags": ["phase-2", "deferred", "on-chain"],
+      "details": "Future on-chain features. Not required for Phase-1 MVP.",
+      "subtasks": [
+        {"id": "8.1", "title": "Smart-contract based scheduling/attestations", "status": "deferred"},
+        {"id": "8.2", "title": "On-chain proof of publication / receipts", "status": "deferred"},
+        {"id": "8.3", "title": "Gas abstraction/paymaster strategy", "status": "deferred"},
+        {"id": "8.4", "title": "Advanced key management (MPC, HSM)", "status": "deferred"},
+        {"id": "8.5", "title": "Cross-chain strategy and indexing", "status": "deferred"}
+      ]
+    }
+  ]
+}
+

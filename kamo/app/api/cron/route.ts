@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     for (const post of due) {
       try {
         // Placeholder for publish call
-        // await publishToFarcaster(post.content)
+        // await publishToFarcaster(post.text)
         db.update(post.id, { status: "posted" });
         posted.push(post.id);
       } catch (e: any) {

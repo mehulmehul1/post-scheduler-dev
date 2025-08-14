@@ -1,8 +1,11 @@
 export type ScheduledPost = {
   id: string;
-  content: string;
+  text: string;
+  imageUrl?: string;
   scheduledAt: string; // ISO timestamp
-  createdAt: string;   // ISO timestamp
+  fid: string;
+  method?: "offchain" | "onchain";
+  createdAt: string; // ISO timestamp
   status: "pending" | "posted" | "failed";
   error?: string;
 };
@@ -18,6 +21,10 @@ class InMemoryDB {
     };
     this.posts.set(created.id, created);
     return created;
+  }
+
+  list(): ScheduledPost[] {
+    return Array.from(this.posts.values());
   }
 
   getDue(nowISO: string): ScheduledPost[] {

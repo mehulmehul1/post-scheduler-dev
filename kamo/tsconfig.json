@@ -37,6 +37,7 @@
   "exclude": [
     "node_modules",
     "lib/pinata.ts",
-    "test/pinata.test.ts"
+    "test/pinata.test.ts",
+    "stickersmash"
   ]
 }

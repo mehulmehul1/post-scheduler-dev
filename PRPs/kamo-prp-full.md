@@ -11,7 +11,7 @@ Feature Goal: Convert the Kamo MiniKit template into a cross‑platform Post Sch
 
 Deliverables:
 
-Expo mobile project configured with dependencies for image picking and editing (expo-image-picker, expo-image-manipulator, expo-file-system), date/time picking (@react-native-community/datetimepicker), navigation (@react-navigation/native or expo-router), modal dialogs (react-native-modal), Farcaster integration, and backend API interactions.
+Expo mobile project configured with dependencies for image picking and editing (expo-image-picker, expo-image-manipulator), advanced editing via IMG.LY CreativeEditor SDK (@imgly/editor-react-native), file handling (expo-file-system), date/time picking (@react-native-community/datetimepicker), navigation (@react-navigation/native or expo-router), modal dialogs (react-native-modal), Farcaster integration, and backend API interactions.
 
 Farcaster mini‑app manifest and Base metadata packaged in the mobile app and served from the backend so casts embed frames correctly on Farcaster
 GitHub
@@ -29,7 +29,7 @@ Backend API:
 
 /api/schedule: A Next.js or Node endpoint (running in the same repository) that accepts requests from the mobile app, validates them, uploads the image to IPFS via Pinata, stores schedule data in Redis or Upstash, and returns a schedule ID.
 
-/api/publish: A cron‑protected endpoint that reads due schedules, posts to Farcaster via Neynar, and optionally triggers a Base smart contract for on‑chain scheduling【285777756637392†L90-L147】.
+/api/publish: A cron‑protected endpoint that reads due schedules, posts to Farcaster via Neynar, and optionally triggers a Base smart contract for on‑chain scheduling.
 
 Utility modules: Shared code (TypeScript) for interacting with Neynar, Pinata, Farcaster metadata, Base chain, and validation schemas; reusable between the mobile app and backend.
 
@@ -47,14 +47,6 @@ User Persona
 Target User: Developers building a Farcaster mini app that enables creators and brands to schedule polished posts with images.
 Use Case: The developer uses this baseline to implement the image editor, post composer, scheduling logic, and optional on‑chain features without worrying about initial scaffolding or project configuration.
 
-Why
-
-Foundation for Feature Development: Provides a well‑structured starting point so that subsequent features (image editing, scheduling, on‑chain integration) can be built incrementally without re‑architecting the project.
-
-Consistency: Aligns with established patterns and templates to ensure that the PRP agentic workflow remains repeatable and maintainable.
-
-Developer Velocity: Reduces setup time by installing necessary packages and creating placeholder files and functions that follow the planned architecture.
-
 What
 
 At this stage the app should implement complete cross‑platform functionality, not just scaffolding:
@@ -63,7 +55,7 @@ Mobile front‑end: Render a polished Expo app with screens for image editing, c
 GitHub
 . The app should request permissions for camera and media library, handle errors gracefully, and feel responsive on both iOS and Android.
 
-Image editing: Present a full‑fledged editor screen using expo-image-picker and expo-image-manipulator. Users can select or capture a photo, crop and rotate it, adjust brightness/contrast/saturation, apply artistic filters, and add stickers/overlays. Editing tools should be organised in modals or toolbars reminiscent of Instagram’s editing flow, enabling intuitive navigation.
+Image editing: Present a full‑fledged editor using expo‑image‑picker for acquisition, CESDK (@imgly/editor-react-native) for advanced tools (filters, overlays, text, shapes, undo/redo, history, templates; photo and video), and expo‑image‑manipulator as a native fallback for core ops (crop/rotate/flip/resize). Users can crop/rotate, adjust brightness/contrast/saturation, apply filters/effects, add stickers/overlays, and for video perform basic timeline edits (trim/split, speed) and select a cover. Tools are organized in Instagram‑like bottom toolbars and modals with gesture support.
 
 Post composition: Provide a compose screen that integrates the edited image, allows the user to input text (respecting Farcaster’s character limit), and choose a date/time for scheduling via a native date/time picker. Include toggles to choose off‑chain vs on‑chain scheduling and modals to adjust filters or stickers. Validate inputs and display helpful error messages.
 
@@ -110,13 +102,17 @@ Post Scheduler Implementation PRP – describes the high‑level features, succe
 GitHub
 .
 
-Post Scheduler Planning PRP – provides detailed milestones and dependency‑ordered tasks for building the mini app【285777756637392†L90-L147】.
+Post Scheduler Planning PRP – provides detailed milestones and dependency‑ordered tasks for building the mini app.
 
 MiniKit Template – the Kamo directory is currently a MiniKit scaffold with demo components, OnchainKit integration, and a README describing environment variables
 GitHub
 .
 
-postschedule-appbuild.md and postschedule-vision.md – offer high‑level guidance on integrating TOAST UI, scheduling logic, and Base chain interactions
+ CESDK documentation for integration and capabilities:
+ https://img.ly/docs/cesdk/react-native/llms-full.txt
+ https://img.ly/docs/cesdk/react-native/get-started/react-native/existing-project-b4312d/
+
+postschedule-appbuild.md and postschedule-vision.md – offer high‑level guidance on integrating the editor, scheduling logic, and Base chain interactions
 GitHub
 GitHub
 .
@@ -210,7 +206,7 @@ Known Gotchas & Library Quirks
 # CRITICAL: Mini‑app metadata (OpenGraph and `fc:frame` tags) must be included in page headers and manifest for correct embedding:contentReference[oaicite:14]{index=14}.
 # CRITICAL: Avoid storing private keys in the client; use signer delegation and wallet providers for any signing operations:contentReference[oaicite:15]{index=15}.
 # CRITICAL: At this stage we provide stub implementations only; actual logic will be implemented in subsequent PRPs.
-# NOTE: Expo’s `ImageManipulator` supports basic operations (crop, rotate, flip) but not advanced filters out‑of‑the‑box; custom filters may require third‑party libraries or shaders.  Be cautious when adding complex filters to ensure performance on mobile devices.  Sticker dragging and pinch gestures may require proper configuration of `react-native-gesture-handler` and `react-native-reanimated`.
+# NOTE: Expo’s `ImageManipulator` supports basic operations (crop, rotate, flip) but not advanced filters out‑of‑the‑box; we will leverage IMG.LY CreativeEditor SDK (CESDK, @imgly/editor-react-native), a native module requiring Expo Prebuild + EAS Dev Client, for advanced effects, overlays, and video editing. Ensure proper configuration of `react-native-gesture-handler` and `react-native-reanimated`.
 
 Implementation Blueprint
 Data Models and Schemas

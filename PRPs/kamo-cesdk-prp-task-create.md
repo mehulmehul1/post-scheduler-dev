@@ -25,7 +25,7 @@ requirements:
 
 license_key_location:
 - Saved in Expo config:
-  - file: `kamo/stickersmash/app.json`
+  - file: `kamo/stickersmash/app.config.ts`
   - key: `expo.extra.EXPO_PUBLIC_CESDK_LICENSE`
 - Access at runtime via `expo-constants`:
   ```ts
@@ -75,7 +75,7 @@ Acceptance Criteria
 - Native module for IMGLY is linked (no unresolved symbol errors).
 
 ## Task 3 — Configure License Key (runtime)
-- Ensure `EXPO_PUBLIC_CESDK_LICENSE` exists in `app.json` under `expo.extra`.
+- Ensure `EXPO_PUBLIC_CESDK_LICENSE` is injected via `app.config.ts` into `expo.extra`.
 - Create a helper util to retrieve the license key (see `getCESDKLicense`).
 
 Acceptance Criteria

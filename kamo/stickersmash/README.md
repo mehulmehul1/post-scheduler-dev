@@ -11,10 +11,13 @@ Instagram-like image and video editing.
    npm install
    ```
 
-2. Provide a CESDK license key via environment variable:
+2. Provide a CESDK license key via environment variable. An example key is
+   included in `.env.example`:
 
    ```sh
-   export EXPO_PUBLIC_CESDK_LICENSE="your-key"
+   cp .env.example .env
+   # or manually export
+   export EXPO_PUBLIC_CESDK_LICENSE="a8PZoZwm4PCZnD328R07uOr96GFbhitja_Roxk8A1ExiEaSZ4E_itV6T7RYdjB9v"
    ```
 
 3. The license key is injected by `app.config.ts` and can be retrieved at runtime
